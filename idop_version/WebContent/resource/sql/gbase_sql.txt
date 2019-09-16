@@ -1,0 +1,7 @@
+----账务运行模块相关sql,gbase
+alter table DOP_MARK_PARAM modify SECOND_DETAIL_CODE varchar(100);
+
+--DOP_MARK_PARAM  表数据要将  oracle 的导到gbase
+
+
+--用户表新增两个字段 HR_SYN  VARCHAR2(8)   SYN_DATE  VARCHAR2(50)

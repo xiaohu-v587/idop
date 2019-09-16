@@ -1,0 +1,89 @@
+
+package com.goodcol.plugin.activerecord.tx;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import com.goodcol.aop.Interceptor;
+import com.goodcol.aop.Invocation;
+import com.goodcol.kit.LogKit;
+import com.goodcol.plugin.activerecord.ActiveRecordException;
+import com.goodcol.plugin.activerecord.Config;
+import com.goodcol.plugin.activerecord.DbKit;
+import com.goodcol.plugin.activerecord.NestedTransactionHelpException;
+
+/**
+ * ActiveRecord declare transaction.
+ * Example: @Before(Tx.class)
+ */
+public class Tx implements Interceptor {
+	
+	public static Config getConfigWithTxConfig(Invocation inv) {
+		TxConfig txConfig = inv.getMethod().getAnnotation(TxConfig.class);
+		if (txConfig == null)
+			txConfig = inv.getTarget().getClass().getAnnotation(TxConfig.class);
+		
+		if (txConfig != null) {
+			Config config = DbKit.getConfig(txConfig.value());
+			if (config == null)
+				throw new RuntimeException("Config not found with TxConfig: " + txConfig.value());
+			return config;
+		}
+		return null;
+	}
+	
+	protected int getTransactionLevel(Config config) {
+		return config.getTransactionLevel();
+	}
+	
+	public void intercept(Invocation inv) {
+		Config config = getConfigWithTxConfig(inv);
+		if (config == null)
+			config = DbKit.getConfig();
+		
+		Connection conn = config.getThreadLocalConnection();
+		if (conn != null) {	// Nested transaction support
+			try {
+				if (conn.getTransactionIsolation() < getTransactionLevel(config))
+					conn.setTransactionIsolation(getTransactionLevel(config));
+				inv.invoke();
+				return ;
+			} catch (SQLException e) {
+				throw new ActiveRecordException(e);
+			}
+		}
+		
+		Boolean autoCommit = null;
+		try {
+			conn = config.getConnection();
+			autoCommit = conn.getAutoCommit();
+			config.setThreadLocalConnection(conn);
+			conn.setTransactionIsolation(getTransactionLevel(config));	// conn.setTransactionIsolation(transactionLevel);
+			conn.setAutoCommit(false);
+			inv.invoke();
+			conn.commit();
+		} catch (NestedTransactionHelpException e) {
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
+			LogKit.logNothing(e);
+		} catch (Throwable t) {
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
+			throw t instanceof RuntimeException ? (RuntimeException)t : new ActiveRecordException(t);
+		}
+		finally {
+			try {
+				if (conn != null) {
+					if (autoCommit != null)
+						conn.setAutoCommit(autoCommit);
+					conn.close();
+				}
+			} catch (Throwable t) {
+				LogKit.error(t.getMessage(), t);	// can not throw exception here, otherwise the more important exception in previous catch block can not be thrown
+			}
+			finally {
+				config.removeThreadLocalConnection();	// prevent memory leak
+			}
+		}
+	}
+}
+
+
+

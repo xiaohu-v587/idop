@@ -1,0 +1,1160 @@
+=======================2019-05-06 登记簿=============
+-------------------------
+--字典配置
+--如果已添加，会报错
+alter table SYS_PARAM_INFO add isyypzdjb varchar2(10) default 0;
+
+--组合查询-人员维度
+--如果已添加，会报错
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('C83D255767404A02822B7D80D98478A2', '组合查询-人员维度', 'complexQueryPerson', '2', 'icon-node', 0, '6BB81FE9E45F49FEB8E25160F8707069', 0, null, 'null', '1', '1,0', '/complexQueryPerson/index');
+-------------------------------------------
+create table T_DJB_APPLY
+(
+  id               VARCHAR2(60) not null,
+  djbid            VARCHAR2(60),
+  sjid             VARCHAR2(60),
+  ordernum         VARCHAR2(10),
+  approver         VARCHAR2(100),
+  nowrole          VARCHAR2(100),
+  apptime          VARCHAR2(60),
+  orgnum           VARCHAR2(60),
+  status           VARCHAR2(10),
+  results          VARCHAR2(500),
+  nextapprover     VARCHAR2(50),
+  nextapprovername VARCHAR2(50),
+  nextzdmc         VARCHAR2(100),
+  fjid             VARCHAR2(100)
+);
+comment on column T_DJB_APPLY.id
+  is '主键';
+comment on column T_DJB_APPLY.djbid
+  is '登记簿ID';
+comment on column T_DJB_APPLY.sjid
+  is '数据ID';
+comment on column T_DJB_APPLY.ordernum
+  is '审核顺序';
+comment on column T_DJB_APPLY.approver
+  is '审核人姓名';
+comment on column T_DJB_APPLY.nowrole
+  is '当前角色';
+comment on column T_DJB_APPLY.apptime
+  is '审核时间';
+comment on column T_DJB_APPLY.orgnum
+  is '所属部门';
+comment on column T_DJB_APPLY.status
+  is '审核状态（1未审核 2已审核）';
+comment on column T_DJB_APPLY.results
+  is '退回原因';
+comment on column T_DJB_APPLY.nextapprover
+  is '下一审批人员工号';
+comment on column T_DJB_APPLY.nextapprovername
+  is '下一审批人姓名';
+comment on column T_DJB_APPLY.nextzdmc
+  is '下一审批人对应字段';
+comment on column T_DJB_APPLY.fjid
+  is '退回附件ID';
+alter table T_DJB_APPLY
+  add primary key (ID)
+  using index;
+
+
+create table T_DJB_JCXX
+(
+  id    VARCHAR2(40) not null,
+  djbmc VARCHAR2(100),
+  orgid VARCHAR2(1000),
+  cjr   VARCHAR2(40),
+  cjrq  VARCHAR2(20),
+  cjjg  VARCHAR2(50),
+  flag  VARCHAR2(10),
+  sfpz  VARCHAR2(100) default 0,
+  by2   VARCHAR2(100)
+);
+comment on column T_DJB_JCXX.djbmc
+  is '登记簿名称';
+comment on column T_DJB_JCXX.orgid
+  is '适用机构';
+comment on column T_DJB_JCXX.cjr
+  is '创建人';
+comment on column T_DJB_JCXX.cjrq
+  is '创建日期';
+comment on column T_DJB_JCXX.cjjg
+  is '创建机构';
+comment on column T_DJB_JCXX.flag
+  is '是否已有数据 1.有';
+comment on column T_DJB_JCXX.sfpz
+  is '是否需要配置流程 1需要 0不需要';
+alter table T_DJB_JCXX
+  add primary key (ID)
+  using index;
+
+
+create table T_DJB_JDSRYSB
+(
+  id    VARCHAR2(40) not null,
+  djbid VARCHAR2(40),
+  ysm   VARCHAR2(100),
+  yshy  VARCHAR2(100),
+  zdlx  VARCHAR2(100),
+  mblx  VARCHAR2(100),
+  cdxz  VARCHAR2(20),
+  zdpx  VARCHAR2(40),
+  zdsm  VARCHAR2(200),
+  sfym  VARCHAR2(8)
+);
+comment on column T_DJB_JDSRYSB.id
+  is '主键';
+comment on column T_DJB_JDSRYSB.djbid
+  is '登记簿ID';
+comment on column T_DJB_JDSRYSB.ysm
+  is '要素名';
+comment on column T_DJB_JDSRYSB.yshy
+  is '要素含义';
+comment on column T_DJB_JDSRYSB.zdlx
+  is '字段类型';
+comment on column T_DJB_JDSRYSB.mblx
+  is '码表类型';
+comment on column T_DJB_JDSRYSB.cdxz
+  is '长度限制';
+comment on column T_DJB_JDSRYSB.zdpx
+  is '字段排序';
+comment on column T_DJB_JDSRYSB.zdsm
+  is '字段说明';
+comment on column T_DJB_JDSRYSB.sfym
+  is '是否验密';
+alter table T_DJB_JDSRYSB
+  add primary key (ID)
+  using index ;
+
+
+create table T_DJB_LBZS_CXTJ
+(
+  id          VARCHAR2(100) not null,
+  djbid       VARCHAR2(100),
+  bhqz        VARCHAR2(60),
+  sffhbm      VARCHAR2(40),
+  sfrq        VARCHAR2(40),
+  sfmhpp      VARCHAR2(40),
+  isstarttime VARCHAR2(2),
+  isendtime   VARCHAR2(2)
+);
+comment on column T_DJB_LBZS_CXTJ.id
+  is '主键';
+comment on column T_DJB_LBZS_CXTJ.djbid
+  is '登记簿ID';
+comment on column T_DJB_LBZS_CXTJ.bhqz
+  is '字段名';
+comment on column T_DJB_LBZS_CXTJ.sffhbm
+  is '机构标识 1为机构';
+comment on column T_DJB_LBZS_CXTJ.sfrq
+  is '机构标识  0为机构';
+comment on column T_DJB_LBZS_CXTJ.sfmhpp
+  is '是否模糊查询  0.否 1.是';
+alter table T_DJB_LBZS_CXTJ
+  add primary key (ID)
+  using index;
+
+
+create table T_DJB_LBZS_JGPZ
+(
+  id     VARCHAR2(100) not null,
+  djbid  VARCHAR2(100),
+  zdm    VARCHAR2(40),
+  xsxs   VARCHAR2(40),
+  kd     VARCHAR2(40),
+  sfmhpp VARCHAR2(40),
+  sfxs   VARCHAR2(40)
+);
+comment on table T_DJB_LBZS_JGPZ
+  is '列表展示页结果配置';
+comment on column T_DJB_LBZS_JGPZ.id
+  is '主键';
+comment on column T_DJB_LBZS_JGPZ.djbid
+  is '登记簿ID';
+comment on column T_DJB_LBZS_JGPZ.zdm
+  is '要展示的字段名';
+comment on column T_DJB_LBZS_JGPZ.xsxs
+  is '显示顺序';
+comment on column T_DJB_LBZS_JGPZ.kd
+  is '显示比例宽度';
+comment on column T_DJB_LBZS_JGPZ.sfmhpp
+  is '是否模糊匹配';
+comment on column T_DJB_LBZS_JGPZ.sfxs
+  is '是否显示';
+alter table T_DJB_LBZS_JGPZ
+  add primary key (ID)
+  using index;
+
+
+create table T_DJB_LCPZ
+(
+  id                       VARCHAR2(80) not null,
+  current_operator         VARCHAR2(300),
+  current_operator_name    VARCHAR2(80),
+  next_operator_group      VARCHAR2(400),
+  next_operator_group_name VARCHAR2(400),
+  zdmc                     VARCHAR2(200),
+  djbid                    VARCHAR2(80),
+  flag                     VARCHAR2(10)
+);
+comment on column T_DJB_LCPZ.id
+  is 'id';
+comment on column T_DJB_LCPZ.current_operator
+  is '当前操作角色';
+comment on column T_DJB_LCPZ.current_operator_name
+  is '当前操作角色名称';
+comment on column T_DJB_LCPZ.next_operator_group
+  is '下级审批角色';
+comment on column T_DJB_LCPZ.next_operator_group_name
+  is '下级审批角色名称';
+comment on column T_DJB_LCPZ.zdmc
+  is '对应登记簿字段名称';
+comment on column T_DJB_LCPZ.djbid
+  is '登记簿ID';
+comment on column T_DJB_LCPZ.flag
+  is '发起人标识 0.否  1.是';
+alter table T_DJB_LCPZ
+  add primary key (ID)
+  using index ;
+
+
+create table T_DJB_ORG
+(
+  id    VARCHAR2(100) not null,
+  djbid VARCHAR2(100),
+  orgid VARCHAR2(20)
+);
+comment on column T_DJB_ORG.id
+  is '主键';
+comment on column T_DJB_ORG.djbid
+  is '登记簿ID';
+comment on column T_DJB_ORG.orgid
+  is '机构号';
+alter table T_DJB_ORG
+  add primary key (ID)
+  using index;
+  
+create table T_DJB_RESMENU_TAB
+(
+  id         VARCHAR2(100) not null,
+  djbid      VARCHAR2(100),
+  djbtab     VARCHAR2(100),
+  menuid     VARCHAR2(100),
+  createtime VARCHAR2(20),
+  createuser VARCHAR2(40)
+);
+comment on table T_DJB_RESMENU_TAB
+  is '菜单登记簿对应关系关联表';
+comment on column T_DJB_RESMENU_TAB.id
+  is '主键';
+comment on column T_DJB_RESMENU_TAB.djbid
+  is '登记簿模版ID';
+comment on column T_DJB_RESMENU_TAB.djbtab
+  is '登记簿模版数据存储表';
+comment on column T_DJB_RESMENU_TAB.menuid
+  is '菜单关联ID';
+comment on column T_DJB_RESMENU_TAB.createtime
+  is '创建时间';
+comment on column T_DJB_RESMENU_TAB.createuser
+  is '创建人';
+alter table T_DJB_RESMENU_TAB
+  add primary key (ID)
+  using index ;
+----------------------------------------------------------------------------  
+
+----------------------------------------------------------------------------
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('B5D0A6FC9B624E77BCCD8AC942F35E4D', '528', '是否', '0', '否', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('D4978E8C5B6E4FFE932461678152B3B3', '528', '是否', '1', '是', '1', 2, '1', null);
+
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('793BC07E5A96487187BD1910FC6D956B', '500003', '字段类型名称', '2', '单行编辑框（文本）', '1', 2, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E1121F9DE61E484990ECD6EBB1C265B0', '500003', '字段类型名称', '3', '单行编辑框（数值）', '1', 3, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('131131B278264448A5C831EF9D4A555A', '500003', '字段类型名称', '0', '审批人员', '1', 0, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('618F454324164C199E90C5C6E78E991B', '500003', '字段类型名称', '1', '下拉框', '1', 1, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('A32344219FF7422880B050EC15DA582F', '500003', '字段类型名称', '4', '单行编辑框（日期）', '1', 4, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('49CBCE071F7E4594B68DB623CFEC77B3', '500003', '字段类型名称', '6', '多行编辑框', '1', 6, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E5B629894D3B4B889F81C497827422CB', '500003', '字段类型名称', '7', '申请人', '1', 7, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E5B629894D3B4B889F81C497827422CC', '500003', '字段类型名称', '8', '接收人', '1', 8, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E5B629894D3B4B889F81C497827422CA', '500003', '字段类型名称', '9', '监交人', '1', 9, '1', null);
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E5B629894D3B4B889F81C497827422CD', '500003', '字段类型名称', '10', '复核人', '1', 10, '1', null);
+
+=======================2019-05-08 BI导入=============
+create table ap_bi.idop_gy_cbs (
+	org_no varchar(10) default null comment '行政机构号',
+	org_name varchar(50) default null comment '行政机构名称',
+	cbs_no varchar(5) default null comment 'CBS机构号',
+	cbs_name varchar(50) default null comment 'CBS机构名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+create table ap_bi.idop_gy_org_info (
+	org_no varchar(10) default null comment '机构号',
+	date varchar(20) default null comment '日期',
+	remark varchar(50) default null comment '备注',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+create table ap_bi.idop_hz_cz_deal_param (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '交易码',
+	deal_name varchar(50) default null comment '交易码名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ss_deal_name (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '交易码',
+	deal_name varchar(50) default null comment '交易码名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param (
+	num varchar(5) default null comment '序号',
+	ww_type varchar(20) default null comment '外围类别',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_bl (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_gjs (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_dzyh (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_lssj (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(20) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_xyk (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_cg (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_qht (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_dzyz (
+	num varchar(5) default null comment '序号',
+	entrance_no varchar(10) default null comment '入口交易码',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_fhts (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_jj (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_lc (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_dhyh (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_khjy (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_dx (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_zk (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_ww_deal_param_sfsb (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '联机交易码',
+	deal_name varchar(50) default null comment '交易名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_hz_xj_deal_param (
+	num varchar(5) default null comment '序号',
+	deal_no varchar(10) default null comment '交易码',
+	deal_name varchar(50) default null comment '交易码名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('num');
+
+create table ap_bi.idop_cn_atm_param (
+	org_no varchar(10) default null comment '机构号',
+	zb_level varchar(10) default null comment '指标层级',
+	zb_no varchar(10) default null comment '指标编号',
+	zb_num1 varchar(20) default null comment '指标数值1(限额)',
+	zb_num2 varchar(20) default null comment '指标数值2（法定节假日前一日上浮）',
+	zb_num3 varchar(20) default null comment '指标数值3（法定节假日上浮）',
+	date varchar(20) default null comment '生效日期',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+create table ap_bi.idop_cn_wsb_param (
+	org_no varchar(10) default null comment '机构号',
+	zb_level varchar(10) default null comment '指标层级',
+	zb_no varchar(10) default null comment '指标编号',
+	zb_num varchar(20) default null comment '指标数值',
+	date varchar(20) default null comment '生效日期',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+create table ap_bi.idop_cn_wx_param (
+	org_no varchar(10) default null comment '机构号',
+	zb_level varchar(10) default null comment '指标层级',
+	zb_no varchar(10) default null comment '指标编号',
+	zb_num1 varchar(20) default null comment '指标数值1(限额)',
+	zb_num2 varchar(20) default null comment '指标数值2（法定节假日前一日上浮）',
+	zb_num3 varchar(20) default null comment '指标数值3（法定节假日上浮）',
+	date varchar(20) default null comment '生效日期',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+create table ap_bi.idop_cn_zk_param (
+	zb_level_no varchar(10) default null comment '指标层级号',
+	zb_level varchar(10) default null comment '指标层级',
+	zb_no varchar(10) default null comment '指标编号',
+	zb_num varchar(20) default null comment '指标数值',
+	date varchar(20) default null comment '生效日期',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('zb_level_no');
+
+create table ap_bi.idop_zfqs_cxcf_ywyj ( 
+	no varchar(10) default null comment '序号',
+	notify_date date default null comment '国外行通知日期',
+	reply_date date default null comment '我行回复日期',
+	is_reply varchar(10) default null comment '是否全量回复国外行所需尽调信息',
+	to_pulbic varchar(10) default null comment '对公',
+	to_private varchar(10) default null comment '对私',
+	fbank_name varchar(50) default null comment '国外银行名称',
+	fbank_no varchar(50) default null comment '相关编号',
+	mark varchar(10) default null comment '退汇、拒绝、冻结',
+	is_OFAC varchar(10) default null comment '是否报告OFAC',
+	reason varchar(20) default null comment '原因',	
+	remark varchar(50) default null comment '备注',
+	org_no  varchar(10) default null comment '业务机构号',
+	org_name  varchar(50) default null comment '业务机构名称',
+	lvl_2_bank  varchar(10) default null comment '所属二级行',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('no');
+
+create table ap_bi.idop_zfqs_cxcf_ztyj ( 
+	no varchar(10) default null comment '序号',
+	date varchar(20) default null comment '收报日期',
+	to_pulbic varchar(10) default null comment '对公',
+	to_private varchar(10) default null comment '对私',
+	hr_swift varchar(10) default null comment '汇入SWIFT',
+	hr_hd varchar(10) default null comment '汇入函电',
+	hr_notes varchar(10) default null comment '汇入NOTES',
+	hc_swift varchar(10) default null comment '汇出SWIFT',
+	hc_hd varchar(10) default null comment '汇出函电',
+	hc_notes varchar(10) default null comment '汇出NOTES',
+	bank_name varchar(50) default null comment '调查银行全称',
+	bank_no varchar(50) default null comment '相关编号',	
+	status varchar(10) default null comment '处理状态',
+	day  varchar(10) default null comment '到期日',
+	remark  varchar(50) default null comment '备注',
+	org_no varchar(10) default null comment '业务机构号',
+	org_name  varchar(50) default null comment '业务机构名称',
+	lvl_2_bank  varchar(10) default null comment '所属二级行',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('no');
+
+create table ap_bi.idop_zfqs_cxcf_whfyj ( 
+	mark varchar(10) default null comment '接收发送标识',
+	type varchar(20) default null comment '报文类型',
+	org_no varchar(10) default null comment '接收/发送机构',
+	org_name varchar(50) default null comment '机构名称',
+	fqh varchar(20) default null comment '发起行',
+	jsh varchar(20) default null comment '接收行',
+	remark varchar(50) default null comment '报文标识号',
+	status varchar(10) default null comment '业务状态',
+	date varchar(20) default null comment '接收/发送日期时间',
+	jbgy varchar(10) default null comment '经办柜员',
+	fhgy varchar(10) default null comment '复核柜员',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+)
+
+create table ap_bi.idop_zfqs_gjhc_bhtbl ( 
+	month varchar(10) default null comment '指标月份',
+	org_name varchar(50) default null comment '省行汇总、二级分行、管辖支行',
+	count varchar(20) default null comment '笔数',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+)
+
+create table ap_bi.idop_zfqs_gjhc_ofac ( 
+	month varchar(10) default null comment '指标月份',
+	org_name varchar(50) default null comment '省行汇总、二级分行、管辖支行',
+	count1 varchar(20) default null comment '国际汇出款未经查询被国外行冻结笔数',
+	count2 varchar(20) default null comment '国际汇出款未经查询被国外行拒绝并报OFAC笔数',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+)
+
+create table ap_bi.idop_zfqs_gjhc_hfjsl ( 
+	month varchar(10) default null comment '指标月份',
+	org_name varchar(50) default null comment '省行汇总、二级分行、管辖支行',
+	count1 varchar(20) default null comment '前台按时回复对内尽职调查报告表国际汇出笔数',
+	count2 varchar(20) default null comment '前台按时回复对内尽职调查报告表国际汇入笔数',
+	count3 varchar(20) default null comment '前台收到对内尽职调查报告表国际汇出笔数',
+	count4 varchar(20) default null comment '前台收到对内尽职调查报告表国际汇入笔数',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+)
+
+create table ap_bi.idop_zfqs_gnsf_monitor ( 
+	no varchar(10) default null comment '序号',
+	date varchar(10) default null comment '日期',
+	sys_name varchar(20) default null comment '系统名称',
+	org_no varchar(10) default null comment '机构号',
+	org_name varchar(50) default null comment '机构名称',
+	remark varchar(100) default null comment '监控情况',
+	place varchar(50) default null comment '信息接收单位',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+)
+
+create table ap_bi.idop_zfqs_gjhr_detail_module ( 
+	date varchar(10) default null comment '退报日期',
+	yw_no varchar(10) default null comment '业务编号',
+	coin varchar(10) default null comment '币别',
+	money varchar(20) default null comment '金额',
+	account varchar(20) default null comment '收款人账号',
+	type varchar(20) default null comment '报文类型',
+	error varchar(100) default null comment '错误退报原因',
+	correct varchar(100) default null comment '正确退报原因',
+	teller_no varchar(20) default null comment '前台退报柜员号',
+	org_no varchar(20) default null comment '机构号',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) 
+
+create table ap_bi.idop_zn_sbkqd ( 
+	bin_no varchar(10) default null comment 'BIN索引',
+	produce_no varchar(10) default null comment '产品索引',
+	produce_name varchar(100) default null comment '产品名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('bin_no');
+
+create table ap_bi.idop_zhzw_sts ( 
+	user_no varchar(10) default null comment '用户号',
+	org_no varchar(10) default null comment '机构号',
+	user_param varchar(10) default null comment '角色编码',
+	line_type varchar(20) default null comment '条线类型',
+	user_type varchar(20) default null comment '角色类型',
+	user_name varchar(20) default null comment '角色名称',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('user_no');
+
+create table ap_bi.idop_zhzw_yxgl ( 
+	org_no varchar(10) default null comment '机构号',
+	org_name varchar(50) default null comment '机构名称',
+	user_no varchar(20) default null comment '联系人柜员号',
+	user_name varchar(20) default null comment '联系人姓名',
+	user_phone varchar(20) default null comment '联系方式',
+	data_date varchar(20) default null comment '数据日期',
+	upload_date varchar(20) default null comment '数据上传日期',
+	upload_id varchar(10) default null comment '上传用户ID'
+) distributed by ('org_no');
+
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('C0F46564C0DC45FEA238FBD6F9CEF0EF', '1', null, '集中核准', '1', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1C0F46564C0DC45FEA238FBD6F9CEF0EF', '1', 'C0F46564C0DC45FEA238FBD6F9CEF0EF', '冲正类交易参数表', 'hz11', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('2C0F46564C0DC45FEA238FBD6F9CEF0EF', '1', 'C0F46564C0DC45FEA238FBD6F9CEF0EF', '上收交易码名称表', 'hz12', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('3C0F46564C0DC45FEA238FBD6F9CEF0EF', '1', 'C0F46564C0DC45FEA238FBD6F9CEF0EF', '外围交易参数表', 'hz13', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('4C0F46564C0DC45FEA238FBD6F9CEF0EF', '1', 'C0F46564C0DC45FEA238FBD6F9CEF0EF', '现金类交易参数表', 'hz14', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('EE26F5851CE843CC8F030F016069C097', '1', null, '现金出纳', '2', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1EE26F5851CE843CC8F030F016069C097', '1', 'EE26F5851CE843CC8F030F016069C097', 'ATM限额参数表', 'cn21', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('2EE26F5851CE843CC8F030F016069C097', '1', 'EE26F5851CE843CC8F030F016069C097', '尾数包数量参数表', 'cn22', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('3EE26F5851CE843CC8F030F016069C097', '1', 'EE26F5851CE843CC8F030F016069C097', '尾箱限额参数表', 'cn23', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('4EE26F5851CE843CC8F030F016069C097', '1', 'EE26F5851CE843CC8F030F016069C097', '重空参数表', 'cn24', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('63E666B1A39E42E891EF8E56C3327E26', '1', null, '智能柜台', '3', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('163E666B1A39E42E891EF8E56C3327E26', '1', '63E666B1A39E42E891EF8E56C3327E26', '三保卡清单', 'zn31', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('3AD0C989DFB144DFAC306A1EBDADB95F', '1', null, '综合账务', '4', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('13AD0C989DFB144DFAC306A1EBDADB95F', '1', '3AD0C989DFB144DFAC306A1EBDADB95F', 'G10002未订阅机构号清单', 'zhzw41', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('23AD0C989DFB144DFAC306A1EBDADB95F', '1', '3AD0C989DFB144DFAC306A1EBDADB95F', 'STS系统柜员角色清单', 'zhzw42', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('33AD0C989DFB144DFAC306A1EBDADB95F', '1', '3AD0C989DFB144DFAC306A1EBDADB95F', '综合账务运行管理系统机构联系人清单', 'zhzw43', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('66FEF3AD06F54B15B93CCAF51353070B', '1', null, '支付清算', '5', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('166FEF3AD06F54B15B93CCAF51353070B', '1', '66FEF3AD06F54B15B93CCAF51353070B', '查询查复', 'zfqs51', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('266FEF3AD06F54B15B93CCAF51353070B', '1', '66FEF3AD06F54B15B93CCAF51353070B', '国际汇出', 'zfqs52', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('366FEF3AD06F54B15B93CCAF51353070B', '1', '66FEF3AD06F54B15B93CCAF51353070B', '国际汇入', 'zfqs53', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('466FEF3AD06F54B15B93CCAF51353070B', '1', '66FEF3AD06F54B15B93CCAF51353070B', '国际收付', 'zfqs54', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('3166FEF3AD06F54B15B93CCAF51353070B', '1', '166FEF3AD06F54B15B93CCAF51353070B', '人行跨行系统查询业务未回复预警', 'cxcf3', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('2166FEF3AD06F54B15B93CCAF51353070B', '1', '166FEF3AD06F54B15B93CCAF51353070B', '反洗钱查询业务处理状态预警表', 'cxcf2', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1166FEF3AD06F54B15B93CCAF51353070B', '1', '166FEF3AD06F54B15B93CCAF51353070B', '反洗钱查询后国外行退汇拒绝冻结并报告OFAC的业务预警', 'cxcf1', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('3266FEF3AD06F54B15B93CCAF51353070B', '1', '266FEF3AD06F54B15B93CCAF51353070B', '跨境汇款反洗钱对内尽职调查报告表前台回复及时率', 'gjhc3', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('2266FEF3AD06F54B15B93CCAF51353070B', '1', '266FEF3AD06F54B15B93CCAF51353070B', '汇款未经查询被国外行冻结或拒绝并报OFAC笔数', 'gjhc2', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1266FEF3AD06F54B15B93CCAF51353070B', '1', '266FEF3AD06F54B15B93CCAF51353070B', '汇款前台业务不符标准被回退比率', 'gjhc1', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1366FEF3AD06F54B15B93CCAF51353070B', '1', '366FEF3AD06F54B15B93CCAF51353070B', '退报原因差错统计明细模块表', 'gjhr1', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1466FEF3AD06F54B15B93CCAF51353070B', '1', '466FEF3AD06F54B15B93CCAF51353070B', '日终未及时处理业务往报及异常业务监控', 'gjsf1', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('799839DC06A94898A13E456D1B655D1A', '1', null, '柜员管理', '0', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('1799839DC06A94898A13E456D1B655D1A', '1', '799839DC06A94898A13E456D1B655D1A', '行政机构号与CBS机构号对应表', 'gy01', null);
+
+insert into dop_biimport_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('2799839DC06A94898A13E456D1B655D1A', '1', '799839DC06A94898A13E456D1B655D1A', '机构信息缺失例外信息表', 'gy02', null);
+
+-----------------------菜单配置-------------
+
+--机构监测
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('ABF69B1713614D45B901CEEC6110879C', '机构监测', 'orgMonitor', '2', 'icon-node', 1, '057AABB6D4324753A1B113D3280BE7FA', 0, null, 'null', '0', 'null', null);
+
+--组合监测
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('057AABB6D4324753A1B113D3280BE7FA', '组合监测', null, '2', 'icon-node', 5, '0', 0, null, null, '0', 'null', null);
+--人员监测
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('DA7C11068585479E91312E5751316506', '人员监测', 'personMonitor', '2', 'icon-node', 2, '057AABB6D4324753A1B113D3280BE7FA', 0, null, null, '0', null, null);
+--业务监测
+insert into SYS_MENU_INFO (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('B543A84D272747A29CDE7BD56A8002E3', '业务监测', 'bizMonitor', '2', 'icon-node', 999, '057AABB6D4324753A1B113D3280BE7FA', 0, null, null, '0', null, null);
+
+insert into SYS_MENU_INFO (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('937E6627460B4CF4ACED2095E4A64F87', '组合参数配置', 'cpc', '2', 'icon-node', 99, '94BA50C66C214EF88B23E52514AC35F4', 0, null, null, '0', null, null);
+
+--登记簿菜单
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('9FBB17ADSFGERHRSKKKDHD245AF819', '登记簿管理', null, '0', 'wp', 11, null, 0, null, null, null, null, null);
+
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('A1235sfs33B54f7F12398B371C3D46423', '登记簿配置', 'djb', '0', '0', 1, '9FBB17ADSFGERHRSKKKDHD245AF819', 0, null, null, null, null, null);
+
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('B9AAED4B19AB4F3ER34F43212B2CQW456', '登记簿目录', 'djbHandler', '0', '0', 2, '9FBB17ADSFGERHRSKKKDHD245AF819', 0, null, null, null, null, null);
+
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('B9AAED4B19AB4F312316323512B2CQW456', '登记簿复核', 'djbapprove', '0', '0', 3, '9FBB17ADSFGERHRSKKKDHD245AF819', 0, null, 'null', 'null', 'null', null);
+
+--手工数据导入
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('0DAD1C17F64A463C83772B79EA393A09', '手工数据导入', 'biimport', '2', 'icon-node', 2, '6AC27880EE644F83B3BA79665E61D9EC', 0, null, 'null', '0', 'null', null);
+
+--提示信息查询
+insert into sys_menu_info (ID, NAME, URL, TYPE, ICON, ORDERNUM, PID, ENABLE, REMARK, ACTIKEY, FLAG, STYLE1, ADRESS)
+values ('9FCEF4C4096B469FBC7652810AD5A862', '提示信息查询', 'prompting_search', '2', 'icon-node', 2, 'BE00DCE26E05447191213CC5E47E1DAF', 0, null, 'null', '1', '1,0', '/prompting_search/toindex');
+
+--------------------------陈佳争------------------
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('FC82C33BC27F4DE6BC36DD7F9318C22B', 'cpc_warning_cls', '确认问题or预警', '1', '确认问题', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('EEB406F47A2241E4BDB57E87AAB69417', 'monitor_rate', '监测频率', '0', '日', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('7C399F403F304D1AA986AD7EF669A59C', 'monitor_rate', '监测频率', '1', '周', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('1658E47E19A04C679D837B9263449968', 'monitor_rate', '监测频率', '2', '月', '1', 2, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('6886163151D44A2D87E579B3B4DAF686', 'monitor_rate', '监测频率', '3', '季', '1', 3, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('13FE8C9B34EF4EF1A1305E789E4CE93E', 'monitor_type', '监测类型', '1', '人员监测', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('685B537AAE874E01BA3D495337891F40', 'monitor_type', '监测类型', '0', '机构监测', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('6608C2F2D8A24D8AA2716D3B04673379', 'monitor_type', '监测类型', '2', '业务监测', '1', 2, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('9CD8973F029340F1B41D8F9DB49063A7', 'monitor_level', '监测机构层级', '0', '管辖支行', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('7DF1995B913C4470B46673AEAA0CD2C2', 'monitor_level', '监测机构层级', '1', '网点', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('FF746A96DC084183957F6B094F45020D', 'monitor_method', '监测方式', '0', '自动', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('B18F4DF09FEE406A90C23A82F5224761', 'monitor_method', '监测方式', '1', '手工', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('1FD3D92A1E6C47DAA346118A298FDDAA', 'monitor_state', '监测状态', '0', '启用', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('DAA8EDD2F6EA4E46A63C1ADADA867CC9', 'monitor_state', '监测状态', '1', '停用', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('0F09566E7946435ABBCA3800C1FCDE85', 'compare_operator', '比较运算符', '0', '=', '1', 0, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('3690AE5CE10F40F6BFA2E337E78AB2EE', 'compare_operator', '比较运算符', '1', '>', '1', 1, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('54FDC781F6D24B91A830D0F982A7F7E6', 'compare_operator', '比较运算符', '2', '<', '1', 2, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('86601E2E2A09472591185CDB1E925A27', 'compare_operator', '比较运算符', '3', '>=', '1', 3, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('F7DB7559D99241AF88076A8F233358A3', 'compare_operator', '比较运算符', '4', '<=', '1', 4, '1', null);
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('43C2BB2190524F52828E5E4A05D13844', 'cpc_warning_cls', '确认问题or预警', '0', '预警', '1', 0, '1', null);
+
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('C0F46564C0DC45FEA238FBD6F9CEF0EF', 'bi_module', 'bi导入模块', '1', '集中核准', '1', 1, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('EE26F5851CE843CC8F030F016069C097', 'bi_module', 'bi导入模块', '2', '现金出纳', '1', 2, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('63E666B1A39E42E891EF8E56C3327E26', 'bi_module', 'bi导入模块', '3', '智能柜台', '1', 3, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('3AD0C989DFB144DFAC306A1EBDADB95F', 'bi_module', 'bi导入模块', '4', '综合账务', '1', 4, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('799839DC06A94898A13E456D1B655D1A', 'bi_module', 'bi导入模块', '0', '柜员管理', '1', 0, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('66FEF3AD06F54B15B93CCAF51353070B', 'bi_module', 'bi导入模块', '5', '支付清算', '1', 5, '1', '0');
+
+insert into sys_param_info (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('2E591091F15444D086D75812B50A3330', 'warn_wd', '预警维度', '2', '提示信息', '1', 2, '1', '0');
+
+
+--update sys_param_info set remark='22.200.141.93:8075' where key='ipaddress';
+update sys_param_info set remark='http://22.200.142.212:8000/Authentication.asmx/GetSSOUserToken?securityCode=yihui&appid=000493&userID=' where key='ticketaddress';
+update sys_param_info set remark='http://22.200.142.67:8080/smartbi/vision/' where key='BIaddress';
+
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1C0F46564C0DC45FEA238FBD6F9CEF0EF', '冲正类交易参数表', 'Iff8080810169ffd4ffd4849c016a05e5f2480f56');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('2C0F46564C0DC45FEA238FBD6F9CEF0EF', '上收交易码名称表', 'Iff8080810169ffd4ffd4849c016a05e9cb0e0f66');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('3C0F46564C0DC45FEA238FBD6F9CEF0EF', '外围交易参数表', 'Iff8080810169ffd4ffd4849c016a05f06f6a0f80');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('4C0F46564C0DC45FEA238FBD6F9CEF0EF', '现金类交易参数表', 'Iff8080810169ffd4ffd4849c016a064faf1b12c4');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1EE26F5851CE843CC8F030F016069C097', 'ATM限额参数表', 'Iff8080810169ffd4ffd4849c016a065c7b3714d9');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('2EE26F5851CE843CC8F030F016069C097', '尾数包数量参数表', 'Iff8080810169ffd4ffd4849c016a065fcda814e6');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('3EE26F5851CE843CC8F030F016069C097', '尾箱限额参数表', 'Iff8080810169ffd4ffd4849c016a06694d0414fb');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('4EE26F5851CE843CC8F030F016069C097', '重空参数表', 'Iff8080810169ffd4ffd4849c016a067696541513');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('163E666B1A39E42E891EF8E56C3327E26', '三保卡清单', 'Iff8080810169ffd4ffd4849c016a0b7befcf240b');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('13AD0C989DFB144DFAC306A1EBDADB95F', 'G10002未订阅机构号清单', 'Iff8080810169ffd4ffd4849c016a0b84e2eb2476');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('23AD0C989DFB144DFAC306A1EBDADB95F', 'STS系统柜员角色清单', 'Iff8080810169ffd4ffd4849c016a0b8136072464');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('33AD0C989DFB144DFAC306A1EBDADB95F', '综合账务运行管理系统机构联系人清单', 'Iff8080810169ffd4ffd4849c016a0b8343cd246d');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('3166FEF3AD06F54B15B93CCAF51353070B', '人行跨行系统查询业务未回复预警', 'Iff8080810169ffd4ffd4849c016a0a302a5f1a30');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('2166FEF3AD06F54B15B93CCAF51353070B', '反洗钱查询业务处理状态预警表', 'Iff8080810169ffd4ffd4849c016a0a2383b91a19');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1166FEF3AD06F54B15B93CCAF51353070B', '反洗钱查询后国外行退汇拒绝冻结并报告OFAC的业务预警', 'Iff8080810169ffd4ffd4849c016a069ead341548');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('3266FEF3AD06F54B15B93CCAF51353070B', '跨境汇款反洗钱对内尽职调查报告表前台回复及时率', 'Iff8080810169ffd4ffd4849c016a0aff970e1d4e');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('2266FEF3AD06F54B15B93CCAF51353070B', '汇款未经查询被国外行冻结或拒绝并报OFAC笔数', 'Iff8080810169ffd4ffd4849c016a0a6e4c9b1acf');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1266FEF3AD06F54B15B93CCAF51353070B', '汇款前台业务不符标准被回退比率', 'Iff8080810169ffd4ffd4849c016a0a5e840b1aa1');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1366FEF3AD06F54B15B93CCAF51353070B', '退报原因差错统计明细模块表', 'Iff8080810169ffd4ffd4849c016a0b4aa81020d2');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1466FEF3AD06F54B15B93CCAF51353070B', '日终未及时处理业务往报及异常业务监控', 'Iff8080810169ffd4ffd4849c016a0b60a12e230a');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('1799839DC06A94898A13E456D1B655D1A', '行政机构号与CBS机构号对应表', 'Iff8080810169ffd4ffd4849c016a0545a5a60e79');
+
+insert into dop_biimport_detail (ID, BI_NAME, RESID)
+values ('2799839DC06A94898A13E456D1B655D1A', '机构信息缺失例外信息表', 'Iff8080810169ffd4ffd4849c016a05d3f6580f20');
+
+--更新计量单位问题
+update SYS_PARAM_INFO set val=remark  where name ='计量单位';
+
+
+================================================================20190513(本次上线)=============================
+     alter table t_djb_jcxx add startUsetime varchar2(30);
+     alter table t_djb_jcxx add endUsetime varchar2(30);
+     alter table t_djb_jcxx add useFlag varchar2(2);
+================================================================20190516(本次上线sql结束)=============================
+
+
+
+alter table DOP_MARK_PARAM modify SECOND_DETAIL_CODE varchar2(100);
+
+
+
+
+----账务运行模块相关sql
+
+insert into SYS_PARAM_INFO (ID, KEY, NAME, VAL, REMARK, TYPE, SORTNUM, STATUS, ISYYPZDJB)
+values ('E517D272A04B4EBEB10E4B87F4AC77B1', 'dop_ywtype', '业务模块', '1001_05', '综合账务', '1', 4, '1', '0');
+
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('61AFF6A74B684E1C9CB1BA2B970DE355', '1', 'CAAC03E702B84EB792D4CFBA924CB1239', '综合账务', '1001_05', null);
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('017AD308F8CA4E44B217AB1E1C27ACD1', '1', 'CAAC03E702B84EB792D4CFBA924CB1247', '综合账务', '1001_05', null);
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('71016DDD14FF40859B6C0F1284Bbc8CC', '1', 'CAAC03E702B84EB792D4CFBA924CB1237', '综合账务', '1001_05', null);
+
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('61AFF6A74B684 ABB1BA2B970DE355', '1', '61AFF6A74B684E1C9CB1BA2B970DE355', '暂付暂收', 'AE001', null);
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('FBDA7334B86A479491688BA140ADF09', '1', '71016DDD14FF40859B6C0F1284Bbc8CC', '基础', 'BE001', null);
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('FBDA7334B86Aade9491688BA140ADF09', '1', '71016DDD14FF40859B6C0F1284Bbc8CC', '效率', 'BE002', null);
+insert into dop_gangedmenu_info (ID, TYPE, UPID, REMARK, VAL, COLLATE)
+values ('FBDA7334B86A4794913D8BA140ADF09', '1', '71016DDD14FF40859B6C0F1284Bbc8CC', '安全', 'BE003', null);
+
+
+----DOP_MARK_PARAM  表1001_05 的数据要重新导入， 一级明细编号原先有错的
+
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001001', '核心银行系统暂付款未销卡业务量', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801001,ZW801002,ZW801003', '1', 'ZW802001', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001002', '核心银行系统暂付款超3个月期未销卡业务量', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801004,ZW801005', '1', 'ZW802002', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001003', '核心银行系统暂付款超3个月期挂账率（业务量）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801006,ZW801007', '0', null, '0', null, null, null, null, null, null, '11', 'ZW001002', 'ZW001001', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001004', '核心银行系统暂付款未销卡金额', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801008,ZW801009,ZW801010', '1', 'ZW802001', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001005', '核心银行系统暂付款超3个月期未销卡金额', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801011,ZW801012', '1', 'ZW802002', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001006', '核心银行系统暂付款超3个月期挂账率（金额）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801013,ZW801014', '0', null, '0', null, null, null, null, null, null, '11', 'ZW001005', 'ZW001004', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001007', '核心银行系统暂收款未销卡业务量', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801015,ZW801016,ZW801017', '1', 'ZW802003', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001008', '核心银行系统暂收款超3个月期未销卡业务量', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801018,ZW801019', '1', 'ZW802004', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001009', '核心银行系统暂收款超3个月期挂账率（业务量）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801020,ZW801021', '0', null, '0', null, null, null, null, null, null, '11', 'ZW001008', 'ZW001007', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001010', '核心银行系统暂收款未销卡金额', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801022,ZW801023,ZW801024', '1', 'ZW802003', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001011', '核心银行系统暂收款超3个月期未销卡金额', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW8010125,ZW801026', '1', 'ZW802004', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001012', '核心银行系统暂收款超3个月期挂账率（金额）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801027,ZW801028', '0', null, '0', null, null, null, null, null, null, '11', 'ZW001011', 'ZW001010', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001013', '核心银行系统暂付款超3个月期挂账率（综合）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '10', 'ZW001003', 'ZW001006', '1', null, null, '0.5');
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001014', '核心银行系统暂收款超3个月期挂账率（综合）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '10', 'ZW001009', 'ZW001012', '1', null, null, '0.5');
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001015', '核心银行系统暂付暂收款项超3个月期挂账率（综合）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '10', 'ZW001035', 'ZW001036', '1', null, null, '0.5');
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001016', '核心银行系统超3个月期暂付款项清理（业务量）', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801029,ZW801030,ZW801031', '1', 'ZW802005', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001017', '核心银行系统超3个月期暂收款项清理（业务量）', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801032,ZW801033,ZW801034', '1', 'ZW802006', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001018', '核心银行系统超3个月期暂付暂收款项清理（业务量）', '0', '1001_05', 'AE001', 'BE001', '笔', null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001019', '核心银行系统超3个月期暂付款项清理（金额）', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801035,ZW801036,ZW801037', '1', 'ZW802005', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001020', '核心银行系统超3个月期暂收款项清理（金额）', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801038,ZW801039,ZW801040', '1', 'ZW802006', '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001021', '核心银行系统超3个月期暂付暂收款项清理（金额）', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001022', '核心银行系统超3个月期暂付款项清理率（业务量）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801041,ZW801042', '0', null, '0', null, null, null, null, null, null, '9', 'ZW001016', 'ZW001002', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001023', '核心银行系统超3个月期暂收款项清理率（业务量）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801043,ZW801044', '0', null, '0', null, null, null, null, null, null, '9', 'ZW001017', 'ZW001008', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001024', '核心银行系统超3个月期暂付暂收款项清理率（业务量）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '9', 'ZW001018', 'ZW001030', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001025', '核心银行系统超3个月期暂付款项清理率（金额）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801045,ZW801046', '0', null, '0', null, null, null, null, null, null, '9', 'ZW001019', 'ZW001005', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001026', '核心银行系统超3个月期暂收款项清理率（金额）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801047,ZW801048', '0', null, '0', null, null, null, null, null, null, '9', 'ZW001020', 'ZW001010', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001027', '核心银行系统超3个月期暂付暂收款项清理率（金额）', '0', '1001_05', 'AE001', 'BE001', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '9', 'ZW001021', 'ZW001031', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001028', '核心银行系统超3个月期暂付暂收款项清理率（综合）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '10', 'ZW001024', 'ZW001027', '1', null, null, '0.5');
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001029', 'STS系统暂付暂收未销卡清单自动核对不符业务量', '0', '1001_05', 'AE001', 'BE001', null, null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW701001', '核心银行系统暂付暂收款项管理效能', '0', '1001_05', 'AE001', 'BE002', null, null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', 'ZW001015', 'ZW001028', '1', null, null, '0.5');
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001030', '核心银行系统暂付暂收款超3个月期未销卡业务量', '0', '1001_05', 'AE001', 'BE001', null, null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001031', '核心银行系统暂付暂收款项超3个月期未销卡金额', '0', '1001_05', 'AE001', 'BE001', null, null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001032', '核心银行系统暂付暂收款项未销卡业务量', '0', '1001_05', 'AE001', 'BE001', null, null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001033', '核心银行系统暂付暂收未销卡金额', '0', '1001_05', 'AE001', 'BE001', null, null, '0', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001034', '核心银行系统暂付款坏账准备金', '0', '1001_05', 'AE001', 'BE001', '元', '人民币', '0', '3', '日', '0,0,0,1', '1,1,1,1', '1', 'ZW801049,ZW801050', '0', null, '0', null, null, null, null, null, null, '4', null, null, '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001035', '核心银行系统暂付暂收款项超3个月期挂账率（业务量）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '11', 'ZW001030', 'ZW001032', '1', null, null, null);
+
+insert into DOP_MARK_PARAM (MARK_CODE, MARK_NAME, MARK_DIMENSION, BUSI_MODULE, SUB_BUSI_CODE, MARK_TYPE_CODE, UNIT, CUR, VALUE_TYPE, PROC_LEVEL, PROC_RATE, SUMMARY_LEVEL, DISPLAY_LEVEL, FIRST_DETAIL, FIRST_DETAIL_CODE, SECOND_DETAIL, SECOND_DETAIL_CODE, MARK_EVAL, PROC_MODE, MARK_DIRECT, MARK_ATT, MARK_GROUP, MARK_AVERAGE_MODE, MARK_MINMAX_MODE, TOTAL_TYPE, DIVIDEND, DIVISOR, IS_KEY_MARK, IS_USE, SOURCE, ZB3)
+values ('ZW001036', '核心银行系统暂付暂收款项超3个月期挂账率（金额）', '0', '1001_05', 'AE001', 'BE001', '%', null, '1', '3', '日', '0,0,0,1', '1,1,1,1', '0', null, '0', null, '0', null, null, null, null, null, null, '11', 'ZW001031', 'ZW001033', '1', null, null, null);
+
+
+
+alter table DOP_MARK_PARAM modify SECOND_DETAIL_CODE varchar2(100);
+
+//-----------------------登记簿模块结束-----------------
+//-----------------------手工报表开始-----------------
+
+
