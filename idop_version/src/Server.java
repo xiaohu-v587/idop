@@ -7,6 +7,7 @@ import com.goodcol.core.core.Gcds;
  */ 
 public class Server {
 	public static void main(String[] args) {
+		//test222
 		String webAppDir=Server.class.getResource("/").getPath().replace("/WEB-INF/classes/", "");
 		int port=79; 
 		String content="/";
