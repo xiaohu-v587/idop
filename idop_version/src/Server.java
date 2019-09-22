@@ -9,7 +9,7 @@ public class Server {
 	public static void main(String[] args) {
 		//test222444
 		String webAppDir=Server.class.getResource("/").getPath().replace("/WEB-INF/classes/", "");
-		int port=79; 
+		int port=78; 
 		String content="/";
 		if(args!=null&&args.length>0){
 			try{
