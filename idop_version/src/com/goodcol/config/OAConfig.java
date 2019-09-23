@@ -306,6 +306,18 @@ public class OAConfig extends GCConfig {
 	   	me.add("/missionFileReport",MissionFileReportCtl.class);
 	   	
 	   	me.add("/rolemutual", Rolemutual.class);
+		
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		System.out.println("服务器更改！");
+		
 	   	
 	}
 	/**
