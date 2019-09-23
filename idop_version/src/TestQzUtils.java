@@ -34,7 +34,7 @@ public class TestQzUtils {
 		arp.setDialect(new OracleDialect());
 		arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
 		arp.start();
-		System.out.println（"服务器更改！"）
+		System.out.println("服务器更改！");
 	}
 
 	

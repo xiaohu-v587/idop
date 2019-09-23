@@ -24,6 +24,8 @@ public class test {
 		System.out.println("本地修改！");
 		System.out.println("浏览器提交！");
 		
+		System.out.println("浏览器提交2！");
+		
 		
 		System.out.println("本地更改2");
 		
