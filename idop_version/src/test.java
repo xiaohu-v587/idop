@@ -25,6 +25,8 @@ public class test {
 		System.out.println("浏览器提交！");
 		
 		
+		System.out.println("本地更改2");
+		
 	}
 	
 	public static int a(int i) {
