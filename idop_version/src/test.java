@@ -37,6 +37,12 @@ public class test {
 		System.out.println("本地更改3");
 		System.out.println("本地更改3");
 		System.out.println("本地更改3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
 		
 	}
 	
