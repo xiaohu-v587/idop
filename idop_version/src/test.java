@@ -29,6 +29,15 @@ public class test {
 		
 		System.out.println("本地更改2");
 		
+		
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		System.out.println("浏览器提交3");
+		
+		
 	}
 	
 	public static int a(int i) {
