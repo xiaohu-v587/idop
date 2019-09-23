@@ -22,6 +22,8 @@ public class test {
 		System.out.println(a(3));;
 		
 		System.out.println("本地修改！");
+		System.out.println("浏览器提交！");
+		
 		
 	}
 	
