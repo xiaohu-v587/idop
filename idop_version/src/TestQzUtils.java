@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class TestQzUtils {
-	static{
+	static{eeee
 		DruidPlugin druidPlugin = new DruidPlugin(
 				PropertiesContent.get("jdbc.url"),
 				PropertiesContent.get("jdbc.username"),
