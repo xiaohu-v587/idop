@@ -29,6 +29,15 @@ public class test {
 		
 		System.out.println("本地更改2");
 		
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		System.out.println("本地更改3");
+		
 	}
 	
 	public static int a(int i) {
