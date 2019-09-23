@@ -44,6 +44,13 @@ public class test {
 		System.out.println("浏览器提交3");
 		System.out.println("浏览器提交3");
 		
+		System.out.println("浏览器提交4");
+		System.out.println("浏览器提交4");
+		System.out.println("浏览器提交4");
+		System.out.println("浏览器提交4");
+		System.out.println("浏览器提交4");
+		System.out.println("浏览器提交4");
+		
 	}
 	
 	public static int a(int i) {
