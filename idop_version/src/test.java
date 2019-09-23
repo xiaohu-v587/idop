@@ -21,6 +21,9 @@ public class test {
 		System.out.println("121111");
 		System.out.println(a(3));;
 		
+		System.out.println("浏览器提交！");
+		
+		
 	}
 	
 	public static int a(int i) {
